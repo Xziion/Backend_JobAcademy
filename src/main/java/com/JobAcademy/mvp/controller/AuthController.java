@@ -6,21 +6,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobacademy.mvp.model.User;
-import com.jobacademy.mvp.services.UserService;
+import com.jobacademy.mvp.services.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService service;
+    private final AuthService service;
 
-    public AuthController(UserService service) {
+    public AuthController(AuthService service) {
         this.service = service;
     }
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
-        return service.registerUser(user);
+    public String registerUser(@RequestBody User user) {
+        return service.register(user);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return service.login(user.getEmail(), user.getPassword());
     }
     
 }
